@@ -4,5 +4,6 @@
     <string name="app_name">HelloGDK</string>
     <string name="title_activity_main">Hello World Immersion</string>
     <string name="hello_world">Hello world!</string>
+    <string name="i_am_card">I am card number %1$s</string>
 
 </resources>
