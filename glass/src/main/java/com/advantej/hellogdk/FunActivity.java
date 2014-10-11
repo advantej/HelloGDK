@@ -2,6 +2,7 @@ package com.advantej.hellogdk;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +16,11 @@ import com.squareup.picasso.Picasso;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
+import java.util.Locale;
 import java.util.Random;
 
 
-public class FunActivity extends Activity {
+public class FunActivity extends Activity implements TextToSpeech.OnInitListener {
 
     private ImageView mImageViewJokeBkgnd;
     private TextView mTextViewJoke;
@@ -27,10 +29,17 @@ public class FunActivity extends Activity {
     private final String mJokeUrl = "http://api.icndb.com/jokes/random?limitTo=[nerdy]";
     private final String mImageUrl = "http://lorempixel.com/640/360/cats/";
 
+    private TextToSpeech mTextToSpeech;
+    private boolean mSpeechInitialized = false;
+    private String mJokeText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun);
+
+        mTextToSpeech = new TextToSpeech(this, this);
 
         mImageViewJokeBkgnd = (ImageView) findViewById(R.id.iv_joke_background);
         mTextViewJoke = (TextView) findViewById(R.id.tv_joke);
@@ -49,6 +58,7 @@ public class FunActivity extends Activity {
                         @Override
                         public void run() {
                             mTextViewJoke.setText(joke);
+                            mJokeText = joke;
                         }
                     });
                 }
@@ -84,6 +94,7 @@ public class FunActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_read_aloud:
+                readAloud(mJokeText);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -97,5 +108,25 @@ public class FunActivity extends Activity {
                 return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            mTextToSpeech.setLanguage(Locale.ENGLISH);
+            mSpeechInitialized = true;
+        }
+    }
+
+    private void readAloud(String text) {
+        if (mSpeechInitialized) {
+            mTextToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTextToSpeech.shutdown();
     }
 }
