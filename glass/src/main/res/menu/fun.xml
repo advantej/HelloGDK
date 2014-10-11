@@ -4,5 +4,5 @@
     <item
         android:id="@+id/menu_read_aloud"
         android:icon="@drawable/ic_glass_logo"
-        android:title="@string/menu_read_aloud"/>
+        android:title="READ_ALOUD"/>
 </menu>

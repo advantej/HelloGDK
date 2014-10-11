@@ -6,9 +6,11 @@ import android.speech.tts.TextToSpeech;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.glass.view.WindowUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -37,6 +39,8 @@ public class FunActivity extends Activity implements TextToSpeech.OnInitListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(WindowUtils.FEATURE_VOICE_COMMANDS);
+
         setContentView(R.layout.activity_fun);
 
         mTextToSpeech = new TextToSpeech(this, this);
@@ -85,19 +89,26 @@ public class FunActivity extends Activity implements TextToSpeech.OnInitListener
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.fun, menu);
-        return true;
+    public boolean onCreatePanelMenu(int featureId, Menu menu) {
+        if (featureId == WindowUtils.FEATURE_VOICE_COMMANDS ||
+                featureId == Window.FEATURE_OPTIONS_PANEL) {
+            getMenuInflater().inflate(R.menu.fun, menu);
+            return true;
+        }
+        return super.onCreatePanelMenu(featureId, menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_read_aloud:
-                readAloud(mJokeText);
-                break;
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        if (featureId == WindowUtils.FEATURE_VOICE_COMMANDS ||
+                featureId == Window.FEATURE_OPTIONS_PANEL) {
+            switch (item.getItemId()) {
+                case R.id.menu_read_aloud:
+                    readAloud(mJokeText);
+                    break;
+            }
         }
-        return super.onOptionsItemSelected(item);
+        return super.onMenuItemSelected(featureId, item);
     }
 
     @Override
