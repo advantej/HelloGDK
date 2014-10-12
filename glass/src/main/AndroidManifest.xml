@@ -31,6 +31,7 @@
 
         <service
             android:name=".FunService"
+            android:icon="@drawable/ic_glass_logo"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
