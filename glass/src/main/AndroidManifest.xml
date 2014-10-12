@@ -43,6 +43,7 @@
         </service>
 
         <activity
+            android:theme="@style/MenuTheme"
             android:name=".LiveCardMenuActivity"/>
     </application>
 
