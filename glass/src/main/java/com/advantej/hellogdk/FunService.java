@@ -32,7 +32,9 @@ public class FunService extends Service {
             Bitmap  background = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
             mLiveCardView.setImageViewBitmap(R.id.iv_joke_background, background);
 
-            //Won't work since there is not setAction
+            Intent startMenu = new Intent(this, LiveCardMenuActivity.class);
+            startMenu.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            mLiveCard.setAction(PendingIntent.getActivity(this, 0, startMenu, 0));
 
             mLiveCard.setViews(mLiveCardView);
             mLiveCard.publish(LiveCard.PublishMode.REVEAL);
