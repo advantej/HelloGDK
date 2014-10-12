@@ -10,5 +10,6 @@
     <string name="loading_fun">Loading fun...</string>
     <string name="menu_read_aloud">Read Aloud</string>
     <string name="show_me_live_card">Show me a live card</string>
+    <string name="action_dismiss">Dismiss</string>
 
 </resources>
