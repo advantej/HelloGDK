@@ -3,23 +3,22 @@
     package="com.advantej.hellogdk" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.glass.permission.DEVELOPMENT" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-
         <activity
             android:name=".MainActivity"
             android:icon="@drawable/ic_glass_logo"
             android:immersive="true"
             android:label="@string/title_activity_main" >
         </activity>
-
         <activity
             android:name=".FunActivity"
-            android:immersive="true"
             android:icon="@drawable/ic_glass_logo"
+            android:immersive="true"
             android:label="@string/title_activity_fun" >
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
@@ -30,6 +29,18 @@
                 android:resource="@xml/voice_trigger" />
         </activity>
 
+        <service
+            android:name=".FunService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.glass.VoiceTrigger"
+                android:resource="@xml/voice_trigger_live_card" />
+        </service>
     </application>
 
 </manifest>
